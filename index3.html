@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<style>
+    body{
+        position: relative;
+        background-color: gray;
+        font-family: sans-serif;
+    }
+    #firstName{
+        position: absolute;
+        z-index: 10;
+        left: 200px;
+        top: 390px;
+    }
+    #lastName{
+        position: absolute;
+        z-index: 10;
+        left:500px;
+        top: 390px;
+    }
+    #image{
+        width: 800px;
+    }
+    #certificateContainer{
+        width: 800px;
+      
+    }
+    #userFirstName,#userLastName{
+        border-radius: 6px;
+        padding: 5px 10px;
+        width: 80%;
+        margin-top: 10px;
+    }
+    #download{
+        padding: 6px 10px;
+        border-radius: 6px;
+        background-color: brown;
+        color: white;
+    }
+    .user-container{
+        display: flex;
+        justify-content: start;
+        margin-top: 2vh;
+    }
+    .user-info{
+        position: absolute;
+        
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: start;
+        background-color: greenyellow;
+        padding: 30px 20px;
+        margin: 0 auto;
+    }
+</style>
+<body>
+    <div id="certificateContainer">
+        <p class="name" id="firstName"></p>
+        <p class="name2" id="lastName"></p>
+        <img src="certificate.png" alt="" id="image">
+    </div>
+    <div class="user-container">
+        <div class="user-info">
+            <div>
+                <label for="userFirstName">Enter your first name:</label>
+                <input type="text" id="userFirstName" placeholder="first name">    
+            </div>
+            <div>
+                <label for="userLastName">Enter your last name:</label>
+                <input type="text" id="userLastName" placeholder="last name">    
+            </div>
+            <button onclick="downloadPng()" id="download">Download PNG</button>
+    
+        </div>
+    </div>
+    
+    
+    <script>
+        function downloadPng() {
+             // Get user input
+            const userFirstName = document.getElementById('userFirstName').value;
+            const userLastName = document.getElementById('userLastName').value;
+
+            // Select elements with class name
+            const firstNameElement = document.getElementById('firstName');
+            const lastNameElement = document.getElementById('lastName');
+
+             // Update the content with user input
+             firstNameElement.textContent = userFirstName;
+             lastNameElement.textContent = userLastName;
+
+            // Capture the canvas with the size of the original image
+            const certificateContainer = document.getElementById('certificateContainer');
+            html2canvas(certificateContainer, { width: certificateContainer.offsetWidth, height: certificateContainer.offsetHeight }).then(canvas => {
+                // Clear user input after capturing canvas
+                document.getElementById('userFirstName').value = '';
+                document.getElementById('userLastName').value = '';
+
+                // Create a link to download the PNG
+                const pngUrl = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = 'certificate.png';
+                link.href = pngUrl;
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html>
